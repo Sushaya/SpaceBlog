@@ -1,0 +1,12 @@
+services:
+  - type: web
+    name: blogspace
+    env: node
+    plan: free
+    buildCommand: npm install
+    startCommand: npm start
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: JWT_SECRET
+        value: blogspace_super_secret_production_key_2026!
