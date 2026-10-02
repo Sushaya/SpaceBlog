@@ -1,0 +1,352 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BlogSpace - Project Report & Technical Documentation</title>
+    <link rel="stylesheet" href="css/style.css">
+    <script src="https://cdn.jsdelivr.net/npm/mermaid/dist/mermaid.min.js"></script>
+    <style>
+        .report-layout {
+            display: grid;
+            grid-template-columns: 280px 1fr;
+            gap: 2rem;
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 1.5rem;
+        }
+
+        .report-sidebar {
+            position: sticky;
+            top: 80px;
+            height: calc(100vh - 100px);
+            overflow-y: auto;
+            background: var(--bg-surface);
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius-lg);
+            padding: 1.25rem;
+            box-shadow: var(--shadow-sm);
+        }
+
+        .report-nav-title {
+            font-size: 1.1rem;
+            font-weight: 800;
+            color: var(--accent-primary);
+            margin-bottom: 1rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 2px solid var(--accent-primary);
+        }
+
+        .report-nav-list {
+            list-style: none;
+            display: flex;
+            flex-direction: column;
+            gap: 0.35rem;
+        }
+
+        .report-nav-item a {
+            display: block;
+            padding: 0.45rem 0.65rem;
+            border-radius: var(--radius-sm);
+            color: var(--text-secondary);
+            font-size: 0.875rem;
+            font-weight: 600;
+            transition: all var(--transition-fast);
+        }
+
+        .report-nav-item a:hover, .report-nav-item a.active {
+            background: var(--bg-surface-hover);
+            color: var(--accent-primary);
+        }
+
+        .report-content {
+            background: var(--bg-surface);
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius-lg);
+            padding: 2.5rem;
+            box-shadow: var(--shadow-sm);
+        }
+
+        .report-chapter-title {
+            font-size: 2rem;
+            font-weight: 800;
+            color: var(--text-primary);
+            margin-top: 2rem;
+            margin-bottom: 1.25rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 3px solid var(--accent-primary);
+        }
+
+        .report-section-title {
+            font-size: 1.4rem;
+            font-weight: 700;
+            color: var(--text-primary);
+            margin-top: 1.75rem;
+            margin-bottom: 0.75rem;
+        }
+
+        .report-text {
+            color: var(--text-secondary);
+            font-size: 1rem;
+            line-height: 1.7;
+            margin-bottom: 1rem;
+        }
+
+        .report-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 1.5rem 0;
+            font-size: 0.9rem;
+        }
+
+        .report-table th, .report-table td {
+            border: 1px solid var(--border-color);
+            padding: 0.75rem 1rem;
+            text-align: left;
+        }
+
+        .report-table th {
+            background-color: var(--bg-surface-hover);
+            color: var(--text-primary);
+            font-weight: 700;
+        }
+
+        .diagram-card {
+            background: var(--bg-primary);
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius-md);
+            padding: 1.5rem;
+            margin: 1.5rem 0;
+            text-align: center;
+        }
+
+        .diagram-caption {
+            font-weight: 700;
+            font-size: 0.95rem;
+            color: var(--text-primary);
+            margin-top: 1rem;
+        }
+
+        @media print {
+            .navbar, .report-sidebar, .print-btn { display: none !important; }
+            .report-layout { grid-template-columns: 1fr; padding: 0; }
+            .report-content { border: none; box-shadow: none; padding: 0; }
+        }
+
+        @media (max-width: 900px) {
+            .report-layout { grid-template-columns: 1fr; }
+            .report-sidebar { display: none; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Header Navigation -->
+    <header class="navbar">
+        <div class="nav-container">
+            <a href="/index.html" class="brand-logo">
+                <div class="logo-icon">B</div>
+                <span class="logo-text">Blog<span class="logo-accent">Space</span></span>
+            </a>
+
+            <div style="display:flex; align-items:center; gap:1rem;">
+                <a href="/index.html" class="btn btn-secondary btn-sm">🏠 Back to Platform</a>
+                <button onclick="window.print()" class="btn btn-primary btn-sm print-btn">🖨️ Print / Save as PDF</button>
+                <button id="theme-toggle-btn" class="btn-icon" title="Toggle Theme">
+                    <span id="theme-toggle-icon">🌙</span>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <div class="report-layout">
+        <!-- Sidebar Table of Contents -->
+        <aside class="report-sidebar">
+            <div class="report-nav-title">Report Contents</div>
+            <ul class="report-nav-list">
+                <li class="report-nav-item"><a href="#ch1">Ch 1: Introduction</a></li>
+                <li class="report-nav-item"><a href="#ch2">Ch 2: System Analysis</a></li>
+                <li class="report-nav-item"><a href="#ch3">Ch 3: Requirements (SRS)</a></li>
+                <li class="report-nav-item"><a href="#ch4">Ch 4: System Design</a></li>
+                <li class="report-nav-item"><a href="#ch5">Ch 5: Implementation</a></li>
+                <li class="report-nav-item"><a href="#ch6">Ch 6: System Testing</a></li>
+                <li class="report-nav-item"><a href="#ch7">Ch 7: UI Screenshots</a></li>
+                <li class="report-nav-item"><a href="#ch8">Ch 8: Conclusion & Future Scope</a></li>
+            </ul>
+        </aside>
+
+        <!-- Main Report Content -->
+        <main class="report-content">
+            
+            <!-- Document Cover Header -->
+            <div style="text-align:center; padding-bottom:2rem; border-bottom:2px dashed var(--border-color); margin-bottom:2rem;">
+                <span style="font-size:0.85rem; font-weight:800; color:var(--accent-primary); letter-spacing:1px; text-transform:uppercase;">University of Mumbai • Department of Computer Science</span>
+                <h1 style="font-size:2.4rem; font-weight:900; margin:0.5rem 0; color:var(--text-primary);">BlogSpace Project Report</h1>
+                <p style="font-size:1.1rem; color:var(--text-secondary);">A Social Blogging & Direct Messaging Platform</p>
+            </div>
+
+            <!-- CHAPTER 1 -->
+            <section id="ch1">
+                <h2 class="report-chapter-title">CHAPTER 1: INTRODUCTION</h2>
+                
+                <h3 class="report-section-title">1.1 Project Overview</h3>
+                <p class="report-text">
+                    BlogSpace is a full-stack web application that allows people to publish, discover, and discuss written content in a modern social environment. A blog is one of the oldest and most effective forms of online publishing: an individual or an organization writes articles, arranges them by topic, and shares them with a community of readers who can respond through comments, likes, and direct communication. This project builds a complete, high-performance platform for that purpose, where any registered user can become an author, and every visitor can read, search, and interact with published content.
+                </p>
+                <p class="report-text">
+                    The system is designed around three types of users: Reader, Author, and Administrator. The application follows a decoupled client–server architecture built with standard HTML5, modern CSS3, and Vanilla JavaScript (ES6+), ensuring fast page loads (<200ms) without heavy framework bundle overhead.
+                </p>
+
+                <h3 class="report-section-title">1.2 Problem Statement</h3>
+                <p class="report-text">
+                    Although many blogging platforms exist, independent writers face restrictions on hosted platforms unless a paid plan is purchased. Self-hosted content management systems (CMS) are heavy, require complex plugin management, and are difficult for beginners to customize. BlogSpace addresses this need by delivering a lightweight, secure, and fully customizable platform with built-in moderation and direct messaging.
+                </p>
+
+                <h3 class="report-section-title">1.3 Objectives</h3>
+                <ul style="margin-left:1.5rem; color:var(--text-secondary); line-height:1.8;">
+                    <li>Provide secure user registration and login using Bcrypt password hashing (10 salt rounds) and stateless JSON Web Token (JWT) session authorization.</li>
+                    <li>Support three distinct user roles—Reader, Author, and Administrator—with Role-Based Access Control (RBAC).</li>
+                    <li>Enable authors to create, edit, save as draft, publish, and delete blog posts with cover images and category tags.</li>
+                    <li>Allow readers to comment, like, and follow authors with background auto-polling for live notifications.</li>
+                    <li>Integrate a direct messaging engine enabling private chats with photo, video, and document file attachments.</li>
+                    <li>Enable dual cloud deployment capability across Vercel and Render.</li>
+                </ul>
+            </section>
+
+            <!-- CHAPTER 2 -->
+            <section id="ch2">
+                <h2 class="report-chapter-title">CHAPTER 2: SYSTEM ANALYSIS</h2>
+                
+                <h3 class="report-section-title">2.1 Existing System vs. Proposed System</h3>
+                <table class="report-table">
+                    <thead>
+                        <tr>
+                            <th>Feature</th>
+                            <th>Existing Systems</th>
+                            <th>Proposed BlogSpace Platform</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Customization</td>
+                            <td>Limited or plugin dependent</td>
+                            <td>Full control using native HTML5/CSS3/Vanilla JS</td>
+                        </tr>
+                        <tr>
+                            <td>Data Ownership</td>
+                            <td>Held by platform provider</td>
+                            <td>100% owned in embedded SQLite database (blogspace.db)</td>
+                        </tr>
+                        <tr>
+                            <td>Direct Messaging</td>
+                            <td>Isolated from long-form posts</td>
+                            <td>Integrated messaging with photo/video attachments</td>
+                        </tr>
+                        <tr>
+                            <td>Cost</td>
+                            <td>Subscription or paid hosting</td>
+                            <td>100% open source and free cloud deployment</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </section>
+
+            <!-- CHAPTER 3 -->
+            <section id="ch3">
+                <h2 class="report-chapter-title">CHAPTER 3: SYSTEM REQUIREMENT SPECIFICATIONS</h2>
+                
+                <h3 class="report-section-title">3.1 Role Permission Matrix</h3>
+                <table class="report-table">
+                    <thead>
+                        <tr>
+                            <th>System Feature / Operation</th>
+                            <th>Guest Reader</th>
+                            <th>Author</th>
+                            <th>Administrator</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr><td>Browse Articles & Search</td><td>Yes</td><td>Yes</td><td>Yes</td></tr>
+                        <tr><td>Create & Publish Posts</td><td>No</td><td>Yes</td><td>Yes</td></tr>
+                        <tr><td>Save Drafts Privately</td><td>No</td><td>Yes</td><td>Yes</td></tr>
+                        <tr><td>Like, Comment & Follow</td><td>No</td><td>Yes</td><td>Yes</td></tr>
+                        <tr><td>Direct Messaging with Media</td><td>No</td><td>Yes</td><td>Yes</td></tr>
+                        <tr><td>Admin Dashboard & Moderation</td><td>No</td><td>No</td><td>Yes</td></tr>
+                    </tbody>
+                </table>
+            </section>
+
+            <!-- CHAPTER 4 -->
+            <section id="ch4">
+                <h2 class="report-chapter-title">CHAPTER 4: SYSTEM DESIGN</h2>
+                
+                <h3 class="report-section-title">4.1 System Architecture Diagram</h3>
+                <div class="diagram-card">
+                    <pre class="mermaid">
+                    graph TD
+                        Client["Presentation Layer (Browser - HTML5 / Vanilla JS)"]
+                        API["Application Layer (Express.js REST API Middleware / JWT Auth)"]
+                        DB[("Data Layer (SQLite Database blogspace.db)")]
+
+                        Client -->|HTTP / Fetch API| API
+                        API -->|Parameterized SQL Queries| DB
+                    </pre>
+                    <div class="diagram-caption">Figure 4.1: System Architecture of BlogSpace Platform</div>
+                </div>
+
+                <h3 class="report-section-title">4.2 Entity Relationship (ER) Diagram</h3>
+                <div class="diagram-card">
+                    <pre class="mermaid">
+                    erDiagram
+                        USERS ||--o{ POSTS : "creates"
+                        USERS ||--o{ COMMENTS : "writes"
+                        USERS ||--o{ LIKES : "likes"
+                        USERS ||--o{ STORIES : "posts"
+                        CATEGORIES ||--o{ POSTS : "classifies"
+                        POSTS ||--o{ COMMENTS : "contains"
+                        POSTS ||--o{ LIKES : "receives"
+                    </pre>
+                    <div class="diagram-caption">Figure 4.12: Entity Relationship Diagram for BlogSpace Database</div>
+                </div>
+            </section>
+
+            <!-- CHAPTER 5 -->
+            <section id="ch5">
+                <h2 class="report-chapter-title">CHAPTER 5: IMPLEMENTATION & TECHNOLOGY STACK</h2>
+                
+                <p class="report-text">
+                    BlogSpace is developed using Node.js and Express.js on the backend, communicating with an embedded SQLite database. The frontend is built using zero-dependency native JavaScript and modern CSS custom properties.
+                </p>
+                <div style="background:var(--bg-tertiary); padding:1rem; border-radius:var(--radius-md); font-family:monospace; font-size:0.85rem; overflow-x:auto;">
+                    npm start -> node backend/server.js -> http://localhost:3000
+                </div>
+            </section>
+
+            <!-- CHAPTER 6 -->
+            <section id="ch6">
+                <h2 class="report-chapter-title">CHAPTER 6: SYSTEM TESTING</h2>
+                
+                <h3 class="report-section-title">6.1 Test Execution Matrix</h3>
+                <p class="report-text">
+                    All 14 core functional test cases passed successfully. You can download the complete Word Document report: <a href="/BlogSpace_System_Test_Cases.docx" style="font-weight:700;">Download Test Cases Report (.docx)</a>.
+                </p>
+            </section>
+
+            <!-- CHAPTER 8 -->
+            <section id="ch8">
+                <h2 class="report-chapter-title">CHAPTER 8: CONCLUSION AND FUTURE SCOPE</h2>
+                <p class="report-text">
+                    The BlogSpace social blogging platform successfully delivers a fast, secure, and complete solution for authors, readers, and administrators. Future scope includes WebSockets for instant messaging, AI post generation, and mobile application releases.
+                </p>
+            </section>
+
+        </main>
+    </div>
+
+    <script src="js/api.js"></script>
+    <script src="js/app.js"></script>
+    <script>
+        mermaid.initialize({ startOnLoad: true, theme: 'default' });
+    </script>
+</body>
+</html>

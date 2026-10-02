@@ -4,7 +4,7 @@
   "description": "BlogSpace - Full-Stack Social Blogging Platform",
   "main": "api/index.js",
   "engines": {
-    "node": "20.x"
+    "node": "24.x"
   },
   "scripts": {
     "start": "node backend/server.js",

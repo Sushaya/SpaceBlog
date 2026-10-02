@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BlogSpace - Social Blogging Platform</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="manifest" href="manifest.json">
+</head>
+<body>
+
+    <!-- Header Navigation -->
+    <header class="navbar">
+        <div class="nav-container">
+            <a href="/index.html" class="brand-logo">
+                <div class="logo-icon">B</div>
+                <span class="logo-text">Blog<span class="logo-accent">Space</span></span>
+            </a>
+
+            <div class="nav-search-wrap">
+                <input type="text" id="nav-search-input" class="nav-search-input" placeholder="Search stories, authors, tags...">
+            </div>
+
+            <ul class="nav-links">
+                <li><a href="/index.html" class="nav-link active">Home</a></li>
+                <li><a href="/explore.html" class="nav-link">Explore</a></li>
+                <li><a href="/communities.html" class="nav-link">Communities</a></li>
+                <li><a href="/reels.html" class="nav-link">Reels</a></li>
+                <li><a href="/dashboard.html" class="nav-link">Dashboard</a></li>
+                <li><a href="/report.html" class="nav-link">📄 Report</a></li>
+            </ul>
+
+            <div style="display:flex; align-items:center; gap:0.5rem;">
+                <button id="theme-toggle-btn" class="btn-icon" title="Toggle Theme">
+                    <span id="theme-toggle-icon">🌙</span>
+                </button>
+                <div id="nav-user-area" style="position:relative;"></div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Container -->
+    <main class="main-container">
+        <!-- 24-Hour Instagram-Style Stories Bar -->
+        <div id="stories-bar-wrap" style="margin-bottom:1.5rem; overflow-x:auto; padding-bottom:0.5rem;">
+            <div id="stories-bar-container" style="display:flex; gap:1rem; align-items:center;">
+                <!-- Dynamically rendered by app.js / stories.js -->
+            </div>
+        </div>
+
+        <div class="layout-grid">
+            
+            <!-- Left Feed Section -->
+            <section>
+                <!-- Feed Selector Tabs -->
+                <div class="profile-tabs" style="justify-content:flex-start; margin-bottom:1.5rem;">
+                    <div id="tab-feed-all" class="profile-tab active">For You</div>
+                    <div id="tab-feed-following" class="profile-tab">Following</div>
+                    <div id="tab-feed-trending" class="profile-tab">Trending</div>
+                </div>
+
+                <!-- Feed Posts List -->
+                <div id="posts-feed">
+                    <!-- Loaded dynamically via posts.js -->
+                </div>
+
+                <div id="pagination-container" style="margin-top:2rem;"></div>
+            </section>
+
+            <!-- Right Sidebar -->
+            <aside>
+                <!-- Community Callout -->
+                <div class="sidebar-widget" style="background: linear-gradient(135deg, rgba(99,102,241,0.08), rgba(236,72,153,0.08)); border:1px solid var(--border-color);">
+                    <h3 class="widget-title">Sub-Communities</h3>
+                    <p style="font-size:0.875rem; color:var(--text-secondary); margin-bottom:1rem;">
+                        Join Reddit-style communities to discuss programming, AI, photography, and travel.
+                    </p>
+                    <a href="/communities.html" class="btn btn-secondary btn-full">Explore Communities</a>
+                </div>
+
+                <!-- Category Discovery Widget -->
+                <div class="sidebar-widget">
+                    <h3 class="widget-title">Popular Topics</h3>
+                    <ul class="category-list">
+                        <li class="category-item">
+                            <a href="/explore.html?category=Technology">
+                                <div class="category-item-left">
+                                    <span class="category-icon-badge icon-tech">💻</span>
+                                    <span class="category-name">Technology</span>
+                                </div>
+                                <span class="category-arrow">→</span>
+                            </a>
+                        </li>
+                        <li class="category-item">
+                            <a href="/explore.html?category=Programming">
+                                <div class="category-item-left">
+                                    <span class="category-icon-badge icon-prog">⚡</span>
+                                    <span class="category-name">Programming</span>
+                                </div>
+                                <span class="category-arrow">→</span>
+                            </a>
+                        </li>
+                        <li class="category-item">
+                            <a href="/explore.html?category=AI">
+                                <div class="category-item-left">
+                                    <span class="category-icon-badge icon-ai">🤖</span>
+                                    <span class="category-name">Artificial Intelligence</span>
+                                </div>
+                                <span class="category-arrow">→</span>
+                            </a>
+                        </li>
+                        <li class="category-item">
+                            <a href="/explore.html?category=Lifestyle">
+                                <div class="category-item-left">
+                                    <span class="category-icon-badge icon-lifestyle">🌿</span>
+                                    <span class="category-name">Lifestyle</span>
+                                </div>
+                                <span class="category-arrow">→</span>
+                            </a>
+                        </li>
+                        <li class="category-item">
+                            <a href="/explore.html?category=Photography">
+                                <div class="category-item-left">
+                                    <span class="category-icon-badge icon-photo">📸</span>
+                                    <span class="category-name">Photography</span>
+                                </div>
+                                <span class="category-arrow">→</span>
+                            </a>
+                        </li>
+                        <li class="category-item">
+                            <a href="/explore.html?category=Travel">
+                                <div class="category-item-left">
+                                    <span class="category-icon-badge icon-travel">✈️</span>
+                                    <span class="category-name">Travel</span>
+                                </div>
+                                <span class="category-arrow">→</span>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </aside>
+        </div>
+    </main>
+
+    <!-- Create Story Modal -->
+    <div id="create-story-modal" class="modal-overlay">
+        <div class="modal-content">
+            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:1rem;">
+                <h3>📸 Create 24h Story</h3>
+                <button id="close-story-modal-btn" class="btn-icon">✕</button>
+            </div>
+            <form id="create-story-form">
+                <div class="form-group">
+                    <label class="form-label">Story Image URL</label>
+                    <input type="text" id="story-image-url" class="form-input" placeholder="https://images.unsplash.com/photo-xxx" required>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Text Overlay Caption</label>
+                    <input type="text" id="story-caption" class="form-input" placeholder="What's happening?">
+                </div>
+                <div style="display:flex; justify-content:flex-end; gap:0.5rem; margin-top:1.5rem;">
+                    <button type="button" onclick="document.getElementById('create-story-modal').classList.remove('active')" class="btn btn-secondary btn-sm">Cancel</button>
+                    <button type="submit" class="btn btn-primary btn-sm">Share Story</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Story Viewer Modal -->
+    <div id="story-viewer-modal" class="modal-overlay" style="background:rgba(0,0,0,0.9);">
+        <div style="position:relative; width:100%; max-width:420px; height:680px; background:#000; border-radius:var(--radius-lg); overflow:hidden; display:flex; flex-direction:column; justify-content:space-between; padding:1.5rem;">
+            <div style="display:flex; justify-content:space-between; align-items:center; color:#fff; z-index:3;">
+                <div id="viewer-author-info" style="display:flex; align-items:center; gap:0.5rem;"></div>
+                <button id="close-viewer-btn" class="btn-icon" style="color:#fff;">✕</button>
+            </div>
+            <div id="viewer-content" style="text-align:center; color:#fff; z-index:3;"></div>
+            <div style="z-index:3;"></div>
+        </div>
+    </div>
+
+    <!-- Mobile Bottom Navigation Bar -->
+    <nav id="mobile-nav" class="mobile-nav">
+        <a href="/index.html" class="mobile-nav-link active">
+            <span>🏠</span>
+            <span>Home</span>
+        </a>
+        <a href="/explore.html" class="mobile-nav-link">
+            <span>🔍</span>
+            <span>Explore</span>
+        </a>
+        <a href="/create-post.html" class="mobile-nav-link">
+            <span>✏️</span>
+            <span>Write</span>
+        </a>
+        <a href="/messages.html" class="mobile-nav-link">
+            <span>💬</span>
+            <span>Messages</span>
+        </a>
+        <a href="/profile.html" class="mobile-nav-link">
+            <span>👤</span>
+            <span>Profile</span>
+        </a>
+    </nav>
+
+    <!-- Scripts -->
+    <script src="js/api.js"></script>
+    <script src="js/app.js"></script>
+    <script src="js/posts.js"></script>
+    <script>
+        // Service Worker PWA Registration
+        if ('serviceWorker' in navigator) {
+            navigator.serviceWorker.register('/service-worker.js').catch(() => {});
+        }
+    </script>
+</body>
+</html>
