@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>User Profile - BlogSpace</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+    <!-- Header Navigation -->
+    <header class="navbar">
+        <div class="nav-container">
+            <a href="/index.html" class="brand-logo">
+                <div class="logo-icon">B</div>
+                <span class="logo-text">Blog<span class="logo-accent">Space</span></span>
+            </a>
+
+            <div class="nav-search">
+                <span class="search-icon">🔍</span>
+                <input type="text" id="nav-search-input" placeholder="Search stories, topics...">
+            </div>
+
+            <ul class="nav-links">
+                <li><a href="/index.html" class="nav-link">Home</a></li>
+                <li><a href="/explore.html" class="nav-link">Explore</a></li>
+            </ul>
+
+            <div style="display:flex; align-items:center; gap:0.5rem;">
+                <button id="theme-toggle-btn" class="btn-icon" title="Toggle Theme">
+                    <span id="theme-toggle-icon">🌙</span>
+                </button>
+                <div id="nav-user-area"></div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Container -->
+    <main class="main-container layout-single">
+        <div id="profile-container">
+            <div class="skeleton" style="height: 280px; width: 100%; border-radius:16px;"></div>
+        </div>
+    </main>
+
+    <!-- Mobile Bottom Navigation -->
+    <nav id="mobile-nav" class="mobile-nav">
+        <a href="/index.html" class="mobile-nav-link">
+            <span>🏠</span>
+            <span>Home</span>
+        </a>
+        <a href="/explore.html" class="mobile-nav-link">
+            <span>🔍</span>
+            <span>Explore</span>
+        </a>
+        <a href="/create-post.html" class="mobile-nav-link">
+            <span>✏️</span>
+            <span>Write</span>
+        </a>
+        <a href="/profile.html" class="mobile-nav-link active">
+            <span>👤</span>
+            <span>Profile</span>
+        </a>
+    </nav>
+
+    <!-- Scripts -->
+    <script src="js/api.js"></script>
+    <script src="js/app.js"></script>
+    <script src="js/posts.js"></script>
+    <script src="js/profile.js"></script>
+</body>
+</html>

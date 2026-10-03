@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Community - BlogSpace</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="manifest" href="manifest.json">
+</head>
+<body>
+
+    <!-- Header Navigation -->
+    <header class="navbar">
+        <div class="nav-container">
+            <a href="/index.html" class="brand-logo">
+                <div class="logo-icon">B</div>
+                <span class="logo-text">Blog<span class="logo-accent">Space</span></span>
+            </a>
+
+            <div class="nav-search-wrap">
+                <input type="text" id="nav-search-input" class="nav-search-input" placeholder="Search stories...">
+            </div>
+
+            <ul class="nav-links">
+                <li><a href="/index.html" class="nav-link">Home</a></li>
+                <li><a href="/explore.html" class="nav-link">Explore</a></li>
+                <li><a href="/communities.html" class="nav-link active">Communities</a></li>
+                <li><a href="/reels.html" class="nav-link">Reels</a></li>
+                <li><a href="/dashboard.html" class="nav-link">Dashboard</a></li>
+            </ul>
+
+            <div style="display:flex; align-items:center; gap:0.5rem;">
+                <button id="theme-toggle-btn" class="btn-icon" title="Toggle Theme">
+                    <span id="theme-toggle-icon">🌙</span>
+                </button>
+                <div id="nav-user-area"></div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Container -->
+    <main class="main-container">
+        <div id="community-hero-container">
+            <div class="skeleton" style="height:180px;"></div>
+        </div>
+
+        <div style="margin-top:2rem;">
+            <h2 style="margin-bottom:1rem;">Community Discussions & Posts</h2>
+            <div id="community-posts-feed">
+                <div class="skeleton" style="height:200px;"></div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Scripts -->
+    <script src="js/api.js"></script>
+    <script src="js/app.js"></script>
+    <script src="js/posts.js"></script>
+    <script src="js/communities.js"></script>
+</body>
+</html>

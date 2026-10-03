@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Explore Stories & Topics - BlogSpace</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+    <!-- Header Navigation -->
+    <header class="navbar">
+        <div class="nav-container">
+            <a href="/index.html" class="brand-logo">
+                <div class="logo-icon">B</div>
+                <span class="logo-text">Blog<span class="logo-accent">Space</span></span>
+            </a>
+
+            <ul class="nav-links">
+                <li><a href="/index.html" class="nav-link">Home</a></li>
+                <li><a href="/explore.html" class="nav-link active">Explore</a></li>
+            </ul>
+
+            <div style="display:flex; align-items:center; gap:0.5rem;">
+                <button id="theme-toggle-btn" class="btn-icon" title="Toggle Theme">
+                    <span id="theme-toggle-icon">🌙</span>
+                </button>
+                <div id="nav-user-area"></div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Container -->
+    <main class="main-container">
+        <!-- Search & Filter Controls Card -->
+        <div class="card" style="margin-bottom: 2rem;">
+            <h1 class="auth-title" style="margin-bottom:1rem; font-size:1.6rem;">Explore BlogSpace</h1>
+
+            <div style="display:grid; grid-template-columns:1fr 200px; gap:1rem; margin-bottom:1.25rem;">
+                <div class="form-group" style="margin-bottom:0;">
+                    <input type="text" id="explore-search" class="form-input" placeholder="Search by title, keywords, username, or content...">
+                </div>
+
+                <div class="form-group" style="margin-bottom:0;">
+                    <select id="explore-sort" class="form-input">
+                        <option value="latest">Sort by: Latest</option>
+                        <option value="most_liked">Sort by: Most Liked</option>
+                        <option value="most_commented">Sort by: Most Commented</option>
+                        <option value="oldest">Sort by: Oldest</option>
+                    </select>
+                </div>
+            </div>
+
+            <!-- Category Pills -->
+            <div class="filter-pills" style="margin-bottom:0;">
+                <button class="filter-pill active" data-category="All">🔥 All Topics</button>
+                <button class="filter-pill" data-category="Technology"><span class="category-icon-badge icon-tech" style="width:24px;height:24px;font-size:0.9rem;border-radius:6px;">💻</span> Technology</button>
+                <button class="filter-pill" data-category="Programming"><span class="category-icon-badge icon-prog" style="width:24px;height:24px;font-size:0.9rem;border-radius:6px;">⚡</span> Programming</button>
+                <button class="filter-pill" data-category="AI"><span class="category-icon-badge icon-ai" style="width:24px;height:24px;font-size:0.9rem;border-radius:6px;">🤖</span> AI</button>
+                <button class="filter-pill" data-category="Education"><span class="category-icon-badge icon-edu" style="width:24px;height:24px;font-size:0.9rem;border-radius:6px;">📚</span> Education</button>
+                <button class="filter-pill" data-category="Gaming"><span class="category-icon-badge icon-gaming" style="width:24px;height:24px;font-size:0.9rem;border-radius:6px;">🎮</span> Gaming</button>
+                <button class="filter-pill" data-category="Travel"><span class="category-icon-badge icon-travel" style="width:24px;height:24px;font-size:0.9rem;border-radius:6px;">✈️</span> Travel</button>
+                <button class="filter-pill" data-category="Lifestyle"><span class="category-icon-badge icon-lifestyle" style="width:24px;height:24px;font-size:0.9rem;border-radius:6px;">🌿</span> Lifestyle</button>
+                <button class="filter-pill" data-category="Business"><span class="category-icon-badge icon-business" style="width:24px;height:24px;font-size:0.9rem;border-radius:6px;">💼</span> Business</button>
+                <button class="filter-pill" data-category="Photography"><span class="category-icon-badge icon-photo" style="width:24px;height:24px;font-size:0.9rem;border-radius:6px;">📸</span> Photography</button>
+                <button class="filter-pill" data-category="Other"><span class="category-icon-badge icon-other" style="width:24px;height:24px;font-size:0.9rem;border-radius:6px;">✨</span> Other</button>
+            </div>
+        </div>
+
+        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:1.25rem;">
+            <span style="font-size:0.9rem; color:var(--text-muted);" id="explore-results-count">Showing explore stories</span>
+            <div style="display:flex; gap:0.4rem;">
+                <button id="view-grid-btn" class="view-toggle-btn active" title="Grid View">📱 Grid</button>
+                <button id="view-list-btn" class="view-toggle-btn" title="Compact List View">📄 List</button>
+            </div>
+        </div>
+
+        <!-- Explore Results Container -->
+        <div id="explore-results" class="posts-grid-layout">
+            <!-- Populated dynamically via posts.js -->
+        </div>
+    </main>
+
+    <!-- Mobile Bottom Navigation -->
+    <nav id="mobile-nav" class="mobile-nav">
+        <a href="/index.html" class="mobile-nav-link">
+            <span>🏠</span>
+            <span>Home</span>
+        </a>
+        <a href="/explore.html" class="mobile-nav-link active">
+            <span>🔍</span>
+            <span>Explore</span>
+        </a>
+        <a href="/create-post.html" class="mobile-nav-link">
+            <span>✏️</span>
+            <span>Write</span>
+        </a>
+        <a href="/profile.html" class="mobile-nav-link">
+            <span>👤</span>
+            <span>Profile</span>
+        </a>
+    </nav>
+
+    <!-- Scripts -->
+    <script src="js/api.js"></script>
+    <script src="js/app.js"></script>
+    <script src="js/posts.js"></script>
+</body>
+</html>

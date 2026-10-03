@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Short Videos & Reels - BlogSpace</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="manifest" href="manifest.json">
+</head>
+<body>
+
+    <!-- Header Navigation -->
+    <header class="navbar">
+        <div class="nav-container">
+            <a href="/index.html" class="brand-logo">
+                <div class="logo-icon">B</div>
+                <span class="logo-text">Blog<span class="logo-accent">Space</span></span>
+            </a>
+
+            <ul class="nav-links">
+                <li><a href="/index.html" class="nav-link">Home</a></li>
+                <li><a href="/explore.html" class="nav-link">Explore</a></li>
+                <li><a href="/communities.html" class="nav-link">Communities</a></li>
+                <li><a href="/reels.html" class="nav-link active">Reels</a></li>
+                <li><a href="/dashboard.html" class="nav-link">Dashboard</a></li>
+            </ul>
+
+            <div style="display:flex; align-items:center; gap:0.5rem;">
+                <button id="btn-create-reel" class="btn btn-primary btn-sm">+ Upload Reel</button>
+                <button id="theme-toggle-btn" class="btn-icon" title="Toggle Theme">
+                    <span id="theme-toggle-icon">🌙</span>
+                </button>
+                <div id="nav-user-area"></div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Reels Vertical Container -->
+    <main class="main-container" style="max-width:540px; padding:0;">
+        <div id="reels-feed-container" class="reels-feed-container">
+            <div class="skeleton" style="height:650px; border-radius:var(--radius-lg);"></div>
+        </div>
+    </main>
+
+    <!-- Upload Reel Modal -->
+    <div id="create-reel-modal" class="modal-overlay">
+        <div class="modal-content">
+            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:1rem;">
+                <h3>🎥 Upload Short Video Reel</h3>
+                <button id="close-reel-modal-btn" class="btn-icon">✕</button>
+            </div>
+            <form id="create-reel-form">
+                <div class="form-group">
+                    <label class="form-label">Video URL (MP4 / WebM)</label>
+                    <input type="text" id="reel-video-url" class="form-input" placeholder="https://example.com/video.mp4" required>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Cover Thumbnail Image URL (Optional)</label>
+                    <input type="text" id="reel-thumb-url" class="form-input" placeholder="https://example.com/thumb.jpg">
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Caption</label>
+                    <input type="text" id="reel-caption" class="form-input" placeholder="Write a catchy caption...">
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Hashtags (Comma separated)</label>
+                    <input type="text" id="reel-hashtags" class="form-input" placeholder="coding, tech, tips">
+                </div>
+                <div style="display:flex; justify-content:flex-end; gap:0.5rem; margin-top:1.5rem;">
+                    <button type="button" onclick="document.getElementById('create-reel-modal').classList.remove('active')" class="btn btn-secondary btn-sm">Cancel</button>
+                    <button type="submit" class="btn btn-primary btn-sm">Publish Reel</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="js/api.js"></script>
+    <script src="js/app.js"></script>
+    <script src="js/reels.js"></script>
+</body>
+</html>

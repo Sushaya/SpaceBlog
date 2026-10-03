@@ -1,0 +1,16 @@
+{
+  "short_name": "BlogSpace",
+  "name": "BlogSpace — Social Blogging Platform",
+  "icons": [
+    {
+      "src": "https://api.dicebear.com/7.x/initials/svg?seed=BlogSpace",
+      "type": "image/svg+xml",
+      "sizes": "192x192 512x512"
+    }
+  ],
+  "start_url": "/index.html",
+  "background_color": "#0f172a",
+  "theme_color": "#6366f1",
+  "display": "standalone",
+  "orientation": "portrait"
+}

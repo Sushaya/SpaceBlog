@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Create Story - BlogSpace</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+    <!-- Header Navigation -->
+    <header class="navbar">
+        <div class="nav-container">
+            <a href="/index.html" class="brand-logo">
+                <div class="logo-icon">B</div>
+                <span class="logo-text">Blog<span class="logo-accent">Space</span></span>
+            </a>
+
+            <div class="nav-links">
+                <a href="/index.html" class="nav-link">Home</a>
+                <a href="/explore.html" class="nav-link">Explore</a>
+            </div>
+
+            <div style="display:flex; align-items:center; gap:0.5rem;">
+                <button id="theme-toggle-btn" class="btn-icon" title="Toggle Theme">
+                    <span id="theme-toggle-icon">🌙</span>
+                </button>
+                <div id="nav-user-area"></div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Container -->
+    <main class="main-container layout-single">
+        <div class="editor-card">
+            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:1.5rem;">
+                <h1 class="auth-title">Create Blog Post</h1>
+                <div style="display:flex; gap:0.5rem;">
+                    <button type="button" id="btn-draft" class="btn btn-secondary btn-sm">Save Draft</button>
+                    <button type="button" id="btn-publish" class="btn btn-primary btn-sm">Publish Story</button>
+                </div>
+            </div>
+
+            <!-- Form Inputs -->
+            <div class="form-group">
+                <label class="form-label" for="editor-title">Blog Title</label>
+                <input type="text" id="editor-title" class="form-input" placeholder="Enter an engaging title..." style="font-size:1.25rem; font-weight:700;" required>
+            </div>
+
+            <div style="display:grid; grid-template-columns:1fr 1fr; gap:1rem; margin-bottom:1.25rem;">
+                <div class="form-group">
+                    <label class="form-label" for="editor-category">Category</label>
+                    <select id="editor-category" class="form-input">
+                        <option value="Technology">Technology</option>
+                        <option value="Programming">Programming</option>
+                        <option value="AI">AI & Machine Learning</option>
+                        <option value="Lifestyle">Lifestyle</option>
+                        <option value="Photography">Photography</option>
+                        <option value="Travel">Travel</option>
+                        <option value="Education">Education</option>
+                        <option value="Gaming">Gaming</option>
+                        <option value="Business">Business</option>
+                        <option value="Other">Other</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label" for="editor-cover">Cover Image URL</label>
+                    <input type="url" id="editor-cover" class="form-input" placeholder="https://images.unsplash.com/...">
+                    <div class="preset-container">
+                        <span style="font-size:0.75rem; color:var(--text-muted); align-self:center;">Quick Cover:</span>
+                        <button type="button" class="preset-pill" data-url="https://images.unsplash.com/photo-1555066931-4365d14bab8c?w=800&auto=format&fit=crop&q=80">💻 Tech</button>
+                        <button type="button" class="preset-pill" data-url="https://images.unsplash.com/photo-1618401471353-b98afee0b2eb?w=800&auto=format&fit=crop&q=80">⚡ Code</button>
+                        <button type="button" class="preset-pill" data-url="https://images.unsplash.com/photo-1677442136019-21780efad99a?w=800&auto=format&fit=crop&q=80">🤖 AI</button>
+                        <button type="button" class="preset-pill" data-url="https://images.unsplash.com/photo-1513694203232-719a280e022f?w=800&auto=format&fit=crop&q=80">📸 Art</button>
+                        <button type="button" class="preset-pill" data-url="https://images.unsplash.com/photo-1488646953014-85cb44e25828?w=800&auto=format&fit=crop&q=80">✈️ Travel</button>
+                        <button type="button" class="preset-pill" data-url="https://images.unsplash.com/photo-1499750310107-5fef28a66643?w=800&auto=format&fit=crop&q=80">☕ Lifestyle</button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="form-label" for="editor-tags">Tags (comma-separated)</label>
+                <input type="text" id="editor-tags" class="form-input" placeholder="webdev, javascript, tech, tutorial">
+            </div>
+
+            <!-- Editor & Live Preview Tabs -->
+            <div class="editor-tabs" style="margin-top:1.5rem;">
+                <div id="tab-write" class="editor-tab active">Write Content</div>
+                <div id="tab-preview" class="editor-tab">Live Preview</div>
+            </div>
+
+            <!-- Write Mode Box -->
+            <div id="box-write">
+                <!-- Formatting Toolbar -->
+                <div class="editor-toolbar">
+                    <button class="toolbar-btn" data-format="bold" title="Bold"><b>B</b></button>
+                    <button class="toolbar-btn" data-format="italic" title="Italic"><i>I</i></button>
+                    <button class="toolbar-btn" data-format="h2" title="Heading 2">H2</button>
+                    <button class="toolbar-btn" data-format="h3" title="Heading 3">H3</button>
+                    <button class="toolbar-btn" data-format="quote" title="Quote">“”</button>
+                    <button class="toolbar-btn" data-format="ul" title="Bullet List">• List</button>
+                    <button class="toolbar-btn" data-format="ol" title="Numbered List">1. List</button>
+                    <button class="toolbar-btn" data-format="link" title="Insert Link">🔗 Link</button>
+                </div>
+
+                <div class="form-group" style="margin-bottom:0.25rem;">
+                    <textarea id="editor-content" class="form-input" rows="14" placeholder="Tell your story... You can use HTML formatting tags or formatting tools above." style="font-family: inherit; font-size:1rem; line-height:1.6;" required></textarea>
+                </div>
+
+                <div class="editor-counter-bar">
+                    <span id="editor-word-count">0 words • 0 characters</span>
+                    <span id="editor-read-time">⏱️ 0 min read</span>
+                </div>
+            </div>
+
+            <!-- Live Preview Mode Box -->
+            <div id="box-preview" class="preview-box" style="display:none;">
+                <!-- Live preview generated here -->
+            </div>
+        </div>
+    </main>
+
+    <!-- Scripts -->
+    <script src="js/api.js"></script>
+    <script src="js/app.js"></script>
+    <script src="js/posts.js"></script>
+</body>
+</html>

@@ -1,0 +1,370 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Direct Messages - BlogSpace</title>
+    <link rel="stylesheet" href="css/style.css">
+    <style>
+        .chat-container {
+            display: grid;
+            grid-template-columns: 320px 1fr;
+            background-color: var(--bg-surface);
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius-lg);
+            height: calc(100vh - 160px);
+            min-height: 520px;
+            overflow: hidden;
+            box-shadow: var(--shadow-md);
+        }
+
+        .chat-sidebar {
+            border-right: 1px solid var(--border-color);
+            display: flex;
+            flex-direction: column;
+            background-color: var(--bg-primary);
+        }
+
+        .chat-sidebar-header {
+            padding: 1rem 1.25rem;
+            border-bottom: 1px solid var(--border-color);
+            font-weight: 700;
+            font-size: 1.1rem;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .conversation-list {
+            flex: 1;
+            overflow-y: auto;
+        }
+
+        .conversation-item {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            padding: 0.85rem 1.25rem;
+            border-bottom: 1px solid var(--border-color);
+            cursor: pointer;
+            transition: background-color var(--transition-fast);
+        }
+
+        .conversation-item:hover, .conversation-item.active {
+            background-color: var(--bg-surface-hover);
+        }
+
+        .conversation-info {
+            flex: 1;
+            min-width: 0;
+        }
+
+        .conversation-name {
+            font-weight: 600;
+            font-size: 0.925rem;
+            color: var(--text-primary);
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .conversation-preview {
+            font-size: 0.825rem;
+            color: var(--text-muted);
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .chat-main {
+            display: flex;
+            flex-direction: column;
+            background-color: var(--bg-surface);
+        }
+
+        .chat-header {
+            padding: 0.85rem 1.5rem;
+            border-bottom: 1px solid var(--border-color);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            background-color: var(--bg-surface);
+        }
+
+        .chat-messages-area {
+            flex: 1;
+            padding: 1.5rem;
+            overflow-y: auto;
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+            background-color: var(--bg-primary);
+        }
+
+        .message-bubble {
+            max-width: 68%;
+            padding: 0.75rem 1.1rem;
+            border-radius: 18px;
+            font-size: 0.95rem;
+            line-height: 1.5;
+            position: relative;
+            word-wrap: break-word;
+        }
+
+        .message-bubble.sent {
+            align-self: flex-end;
+            background: linear-gradient(135deg, var(--accent-primary), var(--accent-primary-hover));
+            color: white;
+            border-bottom-right-radius: 4px;
+        }
+
+        .message-bubble.received {
+            align-self: flex-start;
+            background-color: var(--bg-surface);
+            border: 1px solid var(--border-color);
+            color: var(--text-primary);
+            border-bottom-left-radius: 4px;
+            box-shadow: var(--shadow-sm);
+        }
+
+        .message-time {
+            font-size: 0.7rem;
+            opacity: 0.75;
+            margin-top: 0.35rem;
+            text-align: right;
+        }
+
+        .chat-attachment-img {
+            max-width: 100%;
+            max-height: 250px;
+            border-radius: var(--radius-md);
+            margin-bottom: 0.4rem;
+            cursor: pointer;
+            object-fit: cover;
+            display: block;
+        }
+
+        .chat-attachment-video {
+            max-width: 100%;
+            max-height: 250px;
+            border-radius: var(--radius-md);
+            margin-bottom: 0.4rem;
+            display: block;
+        }
+
+        .chat-attachment-file {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.5rem 0.85rem;
+            background: rgba(0, 0, 0, 0.08);
+            border-radius: var(--radius-md);
+            color: inherit;
+            text-decoration: none;
+            font-size: 0.85rem;
+            margin-bottom: 0.4rem;
+            font-weight: 600;
+        }
+        
+        .chat-attachment-file:hover {
+            background: rgba(0, 0, 0, 0.15);
+        }
+
+        .attachment-preview-bar {
+            padding: 0.5rem 1.25rem;
+            background-color: var(--bg-surface);
+            border-top: 1px solid var(--border-color);
+            display: none;
+            align-items: center;
+            gap: 0.75rem;
+        }
+
+        .attachment-preview-item {
+            position: relative;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            background: var(--bg-primary);
+            padding: 0.35rem 0.75rem;
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius-md);
+            font-size: 0.825rem;
+        }
+
+        .attachment-preview-remove {
+            cursor: pointer;
+            color: var(--accent-danger);
+            font-weight: bold;
+            margin-left: 0.25rem;
+        }
+
+        .chat-input-area {
+            padding: 1rem 1.25rem;
+            border-top: 1px solid var(--border-color);
+            background-color: var(--bg-surface);
+            display: flex;
+            gap: 0.5rem;
+            align-items: center;
+        }
+
+        .chat-input-area input[type="text"] {
+            flex: 1;
+            padding: 0.75rem 1.25rem;
+            background-color: var(--bg-primary);
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius-full);
+            color: var(--text-primary);
+            outline: none;
+        }
+
+        .chat-input-area input[type="text"]:focus {
+            border-color: var(--border-focus);
+        }
+
+        @media (max-width: 768px) {
+            .chat-container {
+                grid-template-columns: 1fr;
+            }
+            .chat-sidebar.hidden-mobile {
+                display: none;
+            }
+            .chat-main.hidden-mobile {
+                display: none;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Header Navigation -->
+    <header class="navbar">
+        <div class="nav-container">
+            <a href="/index.html" class="brand-logo">
+                <div class="logo-icon">B</div>
+                <span class="logo-text">Blog<span class="logo-accent">Space</span></span>
+            </a>
+
+            <ul class="nav-links">
+                <li><a href="/index.html" class="nav-link">Home</a></li>
+                <li><a href="/explore.html" class="nav-link">Explore</a></li>
+            </ul>
+
+            <div style="display:flex; align-items:center; gap:0.5rem;">
+                <button id="theme-toggle-btn" class="btn-icon" title="Toggle Theme">
+                    <span id="theme-toggle-icon">🌙</span>
+                </button>
+                <div id="nav-user-area"></div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Container -->
+    <main class="main-container">
+        <div class="chat-container">
+            
+            <!-- Left Conversations Sidebar -->
+            <div id="chat-sidebar" class="chat-sidebar">
+                <div class="chat-sidebar-header">
+                    <span>Direct Messages</span>
+                </div>
+                <div style="padding:0.5rem 0.75rem; border-bottom:1px solid var(--border-color);">
+                    <input type="text" id="conv-search-input" class="form-input" placeholder="Search contacts..." style="font-size:0.85rem; padding:0.4rem 0.75rem;">
+                </div>
+                <div id="conversations-list" class="conversation-list">
+                    <div class="skeleton" style="height:70px; margin:0.5rem;"></div>
+                </div>
+            </div>
+
+            <!-- Right Active Chat Window -->
+            <div id="chat-main" class="chat-main">
+                <div id="chat-placeholder" class="empty-state" style="margin:auto;">
+                    <div class="empty-state-icon">
+                        <svg width="48" height="48" fill="none" stroke="currentColor" viewBox="0 0 24 24" style="color:var(--accent-primary);">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 10h.01M12 10h.01M16 10h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"></path>
+                        </svg>
+                    </div>
+                    <h3>Your Messages</h3>
+                    <p>Select a conversation or visit a user profile to start chatting.</p>
+                </div>
+
+                <div id="chat-active-window" style="display:none; flex-direction:column; height:100%;">
+                    <!-- Partner Info Header -->
+                    <div class="chat-header">
+                        <div style="display:flex; align-items:center; gap:0.75rem;">
+                            <img id="chat-partner-avatar" src="" class="avatar avatar-sm" alt="Partner">
+                            <div>
+                                <div id="chat-partner-name" style="font-weight:700; color:var(--text-primary);">Name</div>
+                                <div id="chat-partner-handle" style="font-size:0.8rem; color:var(--accent-success);">● Online</div>
+                            </div>
+                        </div>
+                        <div style="display:flex; gap:0.5rem;">
+                            <a id="chat-partner-profile-link" href="#" class="btn btn-secondary btn-sm">View Profile</a>
+                            <button id="btn-clear-chat" class="btn btn-danger btn-sm" title="Clear conversation history">Clear Chat</button>
+                        </div>
+                    </div>
+
+                    <!-- Transcript Area -->
+                    <div id="chat-messages-area" class="chat-messages-area">
+                        <!-- Message bubbles loaded dynamically -->
+                    </div>
+
+                    <!-- Quick Emoji Bar -->
+                    <div class="preset-container" style="padding:0.4rem 1.25rem; background:var(--bg-primary); border-top:1px solid var(--border-color); gap:0.4rem;">
+                        <span style="font-size:0.75rem; color:var(--text-muted); align-self:center;">Quick React:</span>
+                        <button type="button" class="preset-pill emoji-btn" data-emoji="👋">👋</button>
+                        <button type="button" class="preset-pill emoji-btn" data-emoji="👍">👍</button>
+                        <button type="button" class="preset-pill emoji-btn" data-emoji="❤️">❤️</button>
+                        <button type="button" class="preset-pill emoji-btn" data-emoji="😂">😂</button>
+                        <button type="button" class="preset-pill emoji-btn" data-emoji="🔥">🔥</button>
+                        <button type="button" class="preset-pill emoji-btn" data-emoji="🎉">🎉</button>
+                    </div>
+
+                    <!-- Attachment Preview Container -->
+                    <div id="attachment-preview-bar" class="attachment-preview-bar">
+                        <div id="attachment-preview-content" class="attachment-preview-item">
+                            <!-- Selected attachment preview -->
+                        </div>
+                        <span id="btn-remove-attachment" class="attachment-preview-remove" title="Remove attachment">✕</span>
+                    </div>
+
+                    <!-- Send Message Form -->
+                    <form id="chat-form" class="chat-input-area">
+                        <input type="file" id="chat-file-input" accept="image/*,video/*,.pdf,.doc,.docx,.txt,.zip" style="display:none;">
+                        <button type="button" id="btn-attach-file" class="btn-icon" title="Attach Photo, Video or File" style="font-size:1.25rem; padding:0.5rem;">
+                            📎
+                        </button>
+                        <input type="text" id="chat-input" placeholder="Write a message or attach a file..." autocomplete="off">
+                        <button type="submit" class="btn btn-primary" style="border-radius:var(--radius-full); padding:0.75rem 1.25rem;">
+                            Send ➔
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Mobile Bottom Navigation -->
+    <nav id="mobile-nav" class="mobile-nav">
+        <a href="/index.html" class="mobile-nav-link">
+            <span>🏠</span>
+            <span>Home</span>
+        </a>
+        <a href="/explore.html" class="mobile-nav-link">
+            <span>🔍</span>
+            <span>Explore</span>
+        </a>
+        <a href="/messages.html" class="mobile-nav-link active">
+            <span>💬</span>
+            <span>Messages</span>
+        </a>
+        <a href="/profile.html" class="mobile-nav-link">
+            <span>👤</span>
+            <span>Profile</span>
+        </a>
+    </nav>
+
+    <!-- Scripts -->
+    <script src="js/api.js"></script>
+    <script src="js/app.js"></script>
+    <script src="js/messages.js"></script>
+</body>
+</html>
