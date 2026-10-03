@@ -1,0 +1,7 @@
+runtime: nodejs20
+instance_class: F1
+automatic_scaling:
+  max_instances: 1
+env_variables:
+  NODE_ENV: 'production'
+  JWT_SECRET: 'blogspace_super_secret_production_key_2026!'
