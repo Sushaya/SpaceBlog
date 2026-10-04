@@ -11,26 +11,26 @@ router.post('/register', async (req, res) => {
         const { full_name, username, email, password, confirm_password } = req.body;
 
         // Validations
-        if (!full_name || !username || !email || !password) {
-            return res.status(400).json({ error: 'All fields are required.' });
+        if (!full_name || full_name.trim().length < 2 || full_name.trim().length > 50) {
+            return res.status(400).json({ error: 'Please enter a valid name' });
+        }
+
+        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        if (!email || !emailRegex.test(email.trim())) {
+            return res.status(400).json({ error: 'Enter a valid e-mail' });
+        }
+
+        if (!password || password.length < 8) {
+            return res.status(400).json({ error: 'Password must be at least 8 characters' });
         }
 
         if (password !== confirm_password) {
             return res.status(400).json({ error: 'Passwords do not match.' });
         }
 
-        if (password.length < 6) {
-            return res.status(400).json({ error: 'Password must be at least 6 characters long.' });
-        }
-
         const usernameRegex = /^[a-zA-Z0-9_]+$/;
-        if (!usernameRegex.test(username)) {
+        if (!username || !usernameRegex.test(username)) {
             return res.status(400).json({ error: 'Username can only contain letters, numbers, and underscores.' });
-        }
-
-        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-        if (!emailRegex.test(email)) {
-            return res.status(400).json({ error: 'Please enter a valid email address.' });
         }
 
         // Check duplicate email or username
@@ -44,7 +44,7 @@ router.post('/register', async (req, res) => {
                 return res.status(400).json({ error: 'Username is already taken.' });
             }
             if (existingUser.email.toLowerCase() === email.toLowerCase()) {
-                return res.status(400).json({ error: 'Email address is already registered.' });
+                return res.status(400).json({ error: 'E-mail already registered' });
             }
         }
 

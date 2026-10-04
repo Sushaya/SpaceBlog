@@ -4,6 +4,42 @@ const sanitizeHtml = require('sanitize-html');
 const { dbAsync } = require('../database/database');
 const { authenticateToken, optionalAuth } = require('../middleware/auth');
 
+const multer = require('multer');
+const path = require('path');
+const fs = require('fs');
+
+// Ensure uploads directory exists inside frontend/uploads
+const uploadDir = path.join(__dirname, '../../frontend/uploads');
+if (!fs.existsSync(uploadDir)) {
+    fs.mkdirSync(uploadDir, { recursive: true });
+}
+
+// Multer Storage Engine
+const storage = multer.diskStorage({
+    destination: (req, file, cb) => {
+        cb(null, uploadDir);
+    },
+    filename: (req, file, cb) => {
+        const uniqueSuffix = Date.now() + '-' + Math.round(Math.random() * 1E9);
+        const ext = path.extname(file.originalname).toLowerCase() || '.jpg';
+        cb(null, 'cover-' + uniqueSuffix + ext);
+    }
+});
+
+const upload = multer({
+    storage,
+    limits: { fileSize: 5 * 1024 * 1024 }, // 5 MB limit
+    fileFilter: (req, file, cb) => {
+        const allowedTypes = /jpeg|jpg|png|webp|gif/;
+        const extName = allowedTypes.test(path.extname(file.originalname).toLowerCase());
+        const mimeType = allowedTypes.test(file.mimetype);
+        if (extName && mimeType) {
+            return cb(null, true);
+        }
+        cb(new Error('Invalid image type. Only JPG, PNG, WEBP, and GIF are allowed (max 5MB).'));
+    }
+});
+
 // Sanitize HTML helper options for rich text blog posts
 const sanitizeOptions = {
     allowedTags: [
@@ -18,6 +54,23 @@ const sanitizeOptions = {
     },
     allowedSchemes: ['http', 'https', 'data', 'mailto']
 };
+
+// Upload Cover Image from Device Endpoint
+router.post('/upload', authenticateToken, (req, res) => {
+    upload.single('image')(req, res, (err) => {
+        if (err) {
+            return res.status(400).json({ error: err.message || 'Image upload failed.' });
+        }
+        if (!req.file) {
+            return res.status(400).json({ error: 'Please select an image file to upload.' });
+        }
+        const imageUrl = `/uploads/${req.file.filename}`;
+        res.json({
+            message: 'Image uploaded successfully!',
+            imageUrl
+        });
+    });
+});
 
 // Get All Posts (with filters, search, sorting, pagination, following feed, and bookmarks)
 router.get('/', optionalAuth, async (req, res) => {

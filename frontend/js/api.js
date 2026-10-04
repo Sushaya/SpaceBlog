@@ -118,6 +118,29 @@ const API = {
 
     delete(endpoint, body = null, headers = {}) {
         return this.request(endpoint, { method: 'DELETE', body: body ? JSON.stringify(body) : null, headers });
+    },
+
+    async uploadFile(endpoint, formData) {
+        const token = this.getToken();
+        const headers = {};
+        if (token) {
+            headers['Authorization'] = `Bearer ${token}`;
+        }
+        try {
+            const response = await fetch(`${API_BASE_URL}${endpoint}`, {
+                method: 'POST',
+                headers,
+                body: formData
+            });
+            const data = await response.json();
+            if (!response.ok) {
+                throw new Error(data.error || 'Failed to upload file.');
+            }
+            return data;
+        } catch (error) {
+            console.error(`Upload Error [${endpoint}]:`, error);
+            throw error;
+        }
     }
 };
 

@@ -434,10 +434,72 @@ function initPostEditor() {
         });
     });
 
+    // Device Upload Photo Handling
+    const btnUploadCover = document.getElementById('btn-upload-cover');
+    const coverFileInput = document.getElementById('cover-file-input');
+    const coverPreviewContainer = document.getElementById('cover-preview-container');
+    const coverPreviewImg = document.getElementById('cover-preview-img');
+    const btnRemoveCover = document.getElementById('btn-remove-cover');
+
+    const updateCoverPreview = (url) => {
+        if (url && coverPreviewContainer && coverPreviewImg) {
+            coverPreviewImg.src = url;
+            coverPreviewContainer.style.display = 'block';
+        } else if (coverPreviewContainer) {
+            coverPreviewContainer.style.display = 'none';
+        }
+    };
+
+    if (coverInput) {
+        coverInput.addEventListener('input', () => {
+            updateCoverPreview(coverInput.value.trim());
+        });
+    }
+
+    if (btnUploadCover && coverFileInput) {
+        btnUploadCover.addEventListener('click', () => {
+            coverFileInput.click();
+        });
+
+        coverFileInput.addEventListener('change', async (e) => {
+            const file = e.target.files[0];
+            if (!file) return;
+
+            if (file.size > 5 * 1024 * 1024) {
+                showToast('Image size exceeds 5 MB limit.', 'error');
+                return;
+            }
+
+            const formData = new FormData();
+            formData.append('image', file);
+
+            try {
+                btnUploadCover.innerHTML = '<span>⏳</span> Uploading...';
+                const res = await API.uploadFile('/posts/upload', formData);
+                showToast('Photo uploaded successfully!', 'success');
+                if (coverInput) coverInput.value = res.imageUrl;
+                updateCoverPreview(res.imageUrl);
+            } catch (err) {
+                showToast(err.message || 'Failed to upload photo.', 'error');
+            } finally {
+                btnUploadCover.innerHTML = '<span>📸</span> Upload Photo from Device';
+                coverFileInput.value = '';
+            }
+        });
+    }
+
+    if (btnRemoveCover) {
+        btnRemoveCover.addEventListener('click', () => {
+            if (coverInput) coverInput.value = '';
+            updateCoverPreview('');
+        });
+    }
+
     document.querySelectorAll('.preset-pill').forEach(pill => {
         pill.addEventListener('click', () => {
             const url = pill.getAttribute('data-url');
             if (coverInput) coverInput.value = url;
+            updateCoverPreview(url);
         });
     });
 
@@ -464,7 +526,7 @@ function initPostEditor() {
     const editPostId = urlParams.get('edit');
 
     if (editPostId) {
-        loadPostForEdit(editPostId);
+        loadPostForEdit(editPostId, updateCoverPreview);
     }
 
     btnPublish?.addEventListener('click', (e) => {
@@ -499,7 +561,7 @@ function insertFormatting(textarea, format) {
     textarea.focus();
 }
 
-async function loadPostForEdit(postId) {
+async function loadPostForEdit(postId, updateCoverPreview) {
     try {
         const data = await API.get(`/posts/${postId}`);
         const post = data.post;
@@ -507,6 +569,9 @@ async function loadPostForEdit(postId) {
         document.getElementById('editor-title').value = post.title;
         document.getElementById('editor-category').value = post.category;
         document.getElementById('editor-cover').value = post.cover_image;
+        if (updateCoverPreview && post.cover_image) {
+            updateCoverPreview(post.cover_image);
+        }
         document.getElementById('editor-tags').value = post.tags;
         document.getElementById('editor-content').value = post.content;
 
